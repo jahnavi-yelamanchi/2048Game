@@ -1,5 +1,5 @@
 body{
-    background-color: rgb(250, 242, 242);
+    background-color: rgb(0, 0, 0);
 }
 
 .grid {
@@ -7,17 +7,17 @@ body{
     flex-wrap: wrap;
     height: 420px;
     width: 420px;
-    background-color: rgb(0, 0, 0);
+    background-color: rgb(255, 255, 255);
     margin: auto;
     justify-content: center;
     align-content: center;
 }
 
 .grid div{
-    border: solid rgb(68, 65, 65) 2px;
+    border: solid rgb(0, 0, 0) 2px;
     width: 100px;
     height: 100px;
-    background-color: rgb(167, 154, 154);
+    background-color: rgb(255, 255, 255);
     text-align: center;
     vertical-align: middle;
     line-height: 100px;
@@ -30,6 +30,7 @@ body{
     font-weight: bold;
     text-align: center;
     font-size: 30px;
+    color:rgb(255, 255, 255);
 }
 
 .header {
@@ -37,14 +38,17 @@ body{
     margin-top: 50px;
     text-align: center;
     font-weight: bold;
+    color:rgb(255, 255, 255);
 }
 
 .instructions{
     text-align: center;
     margin: auto;
+    color:rgb(255, 255, 255);
 }
 
 #result{
     text-align: center;
     margin: auto;
+    color:rgb(255, 255, 255);
 }
