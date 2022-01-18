@@ -1,10 +1,66 @@
 document.addEventListener('DOMContentLoaded', () => {
     const gridDisplay = document.querySelector('.grid')
     const scoreDisplay = document.getElementById('score')
-    
-    let squares = []
-    let score = 0
+    const highscoreDisplay = document.getElementById('highscore')
 
+    let squares = [];
+    let score = 0;
+    let highscore = 0;
+
+    function createCookie(name,value,days) {
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime()+(days*24*60*60*1000));
+            var expires = "; expires="+date.toGMTString();
+        }
+        else var expires = "";
+        document.cookie = name+"="+value+expires+"; path=/";
+    }
+    
+    function readCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0;i < ca.length;i++) {
+            var c = ca[i];
+            while (c.charAt(0)==' ') c = c.substring(1,c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+        }
+        return null;
+    }
+    
+    function eraseCookie(name) {
+        createCookie(name,"",-1);
+    }
+    
+    function setHighScore(x){
+        highscore = x;
+        highscoreDisplay.innerHTML = x;
+        createCookie("highscore", highscore, 365);
+        //alert("createCookie func: "+document.cookie)
+        //document.cookie = "highscore=" + String(highscore)+";";
+        //alert("Now:"+document.cookie);
+    }
+
+    function checkHighscore() {
+        let x = readCookie("highscore");
+        if (x != null) {
+            //alert(document.cookie);
+            //alert("x=" + x);
+            setHighScore(parseInt(x));
+        } else {
+            createCookie("highscore", highscore, 365);
+        }
+        setHighScore(highscore);
+    }
+    checkHighscore();
+
+    function updateHighscore(){
+        if (score > highscore){
+            createCookie("highscore", score, 365);
+            setHighScore(score);
+        }
+    }
+    
     function createBoard() {
         for (let i=0; i< 16; i++){
             square = document.createElement('div')
@@ -171,6 +227,8 @@ document.addEventListener('DOMContentLoaded', () => {
         sumRow() //combine neighbour if same number
         moveRight() //move all to right again
         generateTwo() //generate new numbers
+
+        updateHighscore()
     }
 
     function keyLeft(){
@@ -178,6 +236,8 @@ document.addEventListener('DOMContentLoaded', () => {
         sumRow()
         moveLeft()
         generateTwo()
+
+        updateHighscore()
     }
 
     function keyDown(){
@@ -185,6 +245,8 @@ document.addEventListener('DOMContentLoaded', () => {
         sumColumn()
         moveDown()
         generateTwo()
+
+        updateHighscore()
     }
 
     function keyUp(){
@@ -192,12 +254,15 @@ document.addEventListener('DOMContentLoaded', () => {
         sumColumn()
         moveUp()
         generateTwo()
+
+        updateHighscore()
     }
 
     function checkWin(){
         for(let i=0; i < 16; i++){
             if (squares[i].innerHTML == 2048){
                 alert('Congratulations!! Refresh the page to play again.')
+                updateHighscore()
                 document.removeEventListener('keyup', control)
             }
         }
@@ -212,6 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if(numZeros===0){
             alert('Game Over!! Refresh the page to play again.')
+            updateHighscore()
             document.removeEventListener('keyup', control)
         }
     }
